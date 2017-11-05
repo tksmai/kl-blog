@@ -2,6 +2,9 @@
 
 namespace app\index\model;
 
+use app\common\helper\Timestamp;
+use \think\Db;
+
 /**
  * Posts Model
  *
@@ -21,6 +24,15 @@ namespace app\index\model;
  */
 class Posts
 {
+    const DEFAULT_PUBLISHER = '匿名';
+    const STATUS_SAVE_ONLY = 2;
+    const STATUS_PUBLISHED = 1;
+    const STATUS_FORBIDDEN = 0;
+    const STATUS_DELETE = -1;
+
+    private static $addTimeField = ['create_time', 'modify_time'];
+    private static $modifyTimeField = ['modify_time'];
+
     private $data = [];
 
     public function __construct(array $data)
@@ -28,21 +40,35 @@ class Posts
         $this->data = $data;
     }
 
-    public function tableList()
+    public static function tableList()
     {
 
     }
 
-    public static function read()
+    public static function read(int $id)
     {
 
     }
 
-    public function add()
+    public function add(int $publisherId)
     {
-        if ($this->data['id']) {
+        if ($this->data['post_id']) {
             return $this->edit();
+        } else {
+            unset($this->data['post_id']);
         }
+        // deal publisher
+        $userInfo = Db::name('Users')->find($publisherId);
+        $this->data['publisher'] = empty($userInfo['username']) ?
+        self::DEFAULT_PUBLISHER : $userInfo['username'];
+        // time deal
+        Timestamp::addTime($this->data, self::$addTimeField);
+        // status deal
+        $this->data['status'] = isset($this->data['status']) ?
+        $this->data['status'] : self::STATUS_SAVE_ONLY;
+        // tag deal
+
+        // insert
 
     }
 
@@ -55,4 +81,5 @@ class Posts
     {
 
     }
+
 }
