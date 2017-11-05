@@ -24,13 +24,14 @@ use \think\Db;
  */
 class Posts
 {
+    const DEFAULT_PUBLISHER_ID = 0;
     const DEFAULT_PUBLISHER = '匿名';
     const STATUS_SAVE_ONLY = 2;
     const STATUS_PUBLISHED = 1;
     const STATUS_FORBIDDEN = 0;
     const STATUS_DELETE = -1;
 
-    private static $addTimeField = ['create_time', 'modify_time'];
+    private static $insertTimeField = ['create_time', 'modify_time'];
     private static $modifyTimeField = ['modify_time'];
 
     private $data = [];
@@ -58,11 +59,15 @@ class Posts
             unset($this->data['post_id']);
         }
         // deal publisher
-        $userInfo = Db::name('Users')->find($publisherId);
+        $userInfo = Db::name('Users')
+            ->field('username')
+            ->find($publisherId);
         $this->data['publisher'] = empty($userInfo['username']) ?
         self::DEFAULT_PUBLISHER : $userInfo['username'];
+        $this->data['publisher_id'] = empty($publisherId) ?
+        self::DEFAULT_PUBLISHER_ID : $publisherId;
         // time deal
-        Timestamp::addTime($this->data, self::$addTimeField);
+        Timestamp::addTime($this->data, self::$insertTimeField);
         // status deal
         $this->data['status'] = isset($this->data['status']) ?
         $this->data['status'] : self::STATUS_SAVE_ONLY;
