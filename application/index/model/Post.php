@@ -2,7 +2,7 @@
 
 namespace app\index\model;
 
-class Article
+class Post
 {
     public static function list()
     {

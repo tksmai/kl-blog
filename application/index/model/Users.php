@@ -2,7 +2,7 @@
 
 namespace app\index\model;
 
-class User
+class Users
 {
     private $username = '';
     private $userId = 0;
