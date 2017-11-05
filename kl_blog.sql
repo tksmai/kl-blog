@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2017-11-05 16:26:20
+-- Generation Time: 2017-11-05 16:46:07
 -- 服务器版本： 5.5.56-log
 -- PHP Version: 7.1.7
 
@@ -27,6 +27,32 @@ USE `kl_blog`;
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `posts`
+--
+-- 创建时间： 2017-11-05 08:44:22
+--
+
+DROP TABLE IF EXISTS `posts`;
+CREATE TABLE IF NOT EXISTS `posts` (
+  `post_id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `publisher` varchar(50) NOT NULL,
+  `publisher_id` int(11) NOT NULL,
+  `tags` varchar(255) NOT NULL,
+  `meta` text NOT NULL,
+  `create_time` int(11) NOT NULL,
+  `publish_time` int(11) NOT NULL,
+  `status` tinyint(8) NOT NULL,
+  PRIMARY KEY (`post_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文章主表';
+
+--
+-- RELATIONSHIPS FOR TABLE `posts`:
+--
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `tag`
 --
 -- 创建时间： 2017-11-04 12:34:06
@@ -44,11 +70,6 @@ CREATE TABLE IF NOT EXISTS `tag` (
 -- RELATIONSHIPS FOR TABLE `tag`:
 --
 
---
--- 插入之前先把表清空（truncate） `tag`
---
-
-TRUNCATE TABLE `tag`;
 -- --------------------------------------------------------
 
 --
@@ -70,12 +91,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 -- RELATIONSHIPS FOR TABLE `users`:
 --
-
---
--- 插入之前先把表清空（truncate） `users`
---
-
-TRUNCATE TABLE `users`;COMMIT;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
