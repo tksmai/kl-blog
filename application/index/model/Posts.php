@@ -14,6 +14,7 @@ namespace app\index\model;
  * meta text // the content for post
  * create_time int(11)
  * publish_time int(11)
+ * modify_time int(11)
  * status tinyint(8)
  *
  * Kanzaki Tsukasa
@@ -42,6 +43,7 @@ class Posts
         if ($this->data['id']) {
             return $this->edit();
         }
+
     }
 
     public function edit()

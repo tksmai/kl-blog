@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2017-11-05 16:46:07
+-- Generation Time: 2017-11-05 16:54:24
 -- 服务器版本： 5.5.56-log
 -- PHP Version: 7.1.7
 
@@ -29,7 +29,7 @@ USE `kl_blog`;
 --
 -- 表的结构 `posts`
 --
--- 创建时间： 2017-11-05 08:44:22
+-- 创建时间： 2017-11-05 08:54:12
 --
 
 DROP TABLE IF EXISTS `posts`;
@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `meta` text NOT NULL,
   `create_time` int(11) NOT NULL,
   `publish_time` int(11) NOT NULL,
+  `modify_time` int(11) NOT NULL,
   `status` tinyint(8) NOT NULL,
   PRIMARY KEY (`post_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文章主表';
