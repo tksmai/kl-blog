@@ -1,18 +1,18 @@
 {
-    "name": "topthink/think",
-    "description": "the new thinkphp framework",
+    "name": "Kazami Labs Blog",
+    "description": "The Blog design for Kazami Labs Org.",
     "type": "project",
     "keywords": [
-        "framework",
-        "thinkphp",
-        "ORM"
+        "Kazami",
+        "Labs",
+        "Blog"
     ],
-    "homepage": "http://thinkphp.cn/",
+    "homepage": "http://www.kazamigk.com/",
     "license": "Apache-2.0",
     "authors": [
         {
-            "name": "liu21st",
-            "email": "liu21st@gmail.com"
+            "name": "Tsukasa Kanzaki",
+            "email": "tsukasa.kzk@gmail.com"
         }
     ],
     "require": {
@@ -24,5 +24,8 @@
     },
     "config": {
         "preferred-install": "dist"
+    },
+    "require-dev": {
+        "topthink/think-testing": "1.*"
     }
 }
