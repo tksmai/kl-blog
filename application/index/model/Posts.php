@@ -3,6 +3,7 @@
 namespace app\index\model;
 
 use app\common\helper\Timestamp;
+use app\index\model\Tags;
 use \think\Db;
 
 /**
@@ -72,7 +73,7 @@ class Posts
         $this->data['status'] = isset($this->data['status']) ?
         $this->data['status'] : self::STATUS_SAVE_ONLY;
         // tag deal
-
+        empty($this->data['tags']) || Tags::insertOnce($this->data['tags']);
         // insert
 
     }
