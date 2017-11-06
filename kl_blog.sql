@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2017-11-05 16:54:24
+-- Generation Time: 2017-11-06 10:00:38
 -- 服务器版本： 5.5.56-log
 -- PHP Version: 7.1.7
 
@@ -54,21 +54,21 @@ CREATE TABLE IF NOT EXISTS `posts` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `tag`
+-- 表的结构 `tags`
 --
--- 创建时间： 2017-11-04 12:34:06
+-- 创建时间： 2017-11-06 01:59:44
 --
 
-DROP TABLE IF EXISTS `tag`;
-CREATE TABLE IF NOT EXISTS `tag` (
+DROP TABLE IF EXISTS `tags`;
+CREATE TABLE IF NOT EXISTS `tags` (
   `tag_id` int(11) NOT NULL AUTO_INCREMENT,
-  `tag` varchar(255) NOT NULL,
+  `tag_name` varchar(255) NOT NULL,
   `create_time` int(11) NOT NULL,
   PRIMARY KEY (`tag_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 --
--- RELATIONSHIPS FOR TABLE `tag`:
+-- RELATIONSHIPS FOR TABLE `tags`:
 --
 
 -- --------------------------------------------------------
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(64) NOT NULL,
   `reg_time` int(11) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 --
 -- RELATIONSHIPS FOR TABLE `users`:

@@ -10,12 +10,12 @@ use think\Db;
  *
  * Data Dictionary
  * tag_id int(11) pk
- * tag varchar(255)
+ * tag_name varchar(255)
  * create_time int(11)
  *
  * Kanzaki Tsukasa
  */
-class Tag
+class Tags
 {
     public static $insertTimeField = ['create_time'];
     /**
@@ -27,22 +27,22 @@ class Tag
      */
     public static function insertOnce(array $tags): array
     {
-        $condition = ['tag' => ['in', $tags]];
-        $dbTags = Db::name('tag')
+        $condition = ['tag_name' => ['in', $tags]];
+        $dbTags = Db::name('tags')
             ->where($condition)
-            ->column(['tag_id', 'tag']);
+            ->column(['tag_id', 'tag_name']);
         $diff = array_diff($tags, $dbTags);
 
         if (!empty($diff)) {
             $insertData = [];
             foreach ($diff as $item) {
-                $col = ['tag' => $item];
+                $col = ['tag_name' => $item];
                 Timestamp::addTime($col, self::$insertTimeField);
                 $insertData[] = $col;
             }
-            Db::name('tag')->insertAll($insertData);
+            Db::name('tags')->insertAll($insertData);
         }
-        return Db::name('tag')->where($condition)->column('tag_id');
+        return Db::name('tags')->where($condition)->column('tag_id');
     }
 
 }
