@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2017-11-06 10:00:38
+-- Generation Time: 2017-11-10 14:45:34
 -- 服务器版本： 5.5.56-log
 -- PHP Version: 7.1.7
 
@@ -45,10 +45,28 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `modify_time` int(11) NOT NULL,
   `status` tinyint(8) NOT NULL,
   PRIMARY KEY (`post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文章主表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='文章主表';
 
 --
 -- RELATIONSHIPS FOR TABLE `posts`:
+--
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `posts_tags`
+--
+-- 创建时间： 2017-11-10 05:32:24
+--
+
+DROP TABLE IF EXISTS `posts_tags`;
+CREATE TABLE IF NOT EXISTS `posts_tags` (
+  `post_id` int(11) NOT NULL,
+  `tag_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文章标签关系表';
+
+--
+-- RELATIONSHIPS FOR TABLE `posts_tags`:
 --
 
 -- --------------------------------------------------------
@@ -65,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `tags` (
   `tag_name` varchar(255) NOT NULL,
   `create_time` int(11) NOT NULL,
   PRIMARY KEY (`tag_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
 
 --
 -- RELATIONSHIPS FOR TABLE `tags`:

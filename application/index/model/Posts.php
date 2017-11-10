@@ -36,6 +36,8 @@ class Posts
     private static $modifyTimeField = ['modify_time'];
 
     private $data = [];
+    private $error = '';
+    private $postId = 0;
 
     public function __construct(array $data)
     {
@@ -50,6 +52,11 @@ class Posts
     public static function read(int $id)
     {
 
+    }
+
+    public function getId()
+    {
+        return $this->postId;
     }
 
     public function add(int $publisherId)
@@ -73,9 +80,27 @@ class Posts
         $this->data['status'] = isset($this->data['status']) ?
         $this->data['status'] : self::STATUS_SAVE_ONLY;
         // tag deal
-        empty($this->data['tags']) || Tags::insertOnce($this->data['tags']);
-        // insert
+        $tags = [];
+        if (!empty($this->data['tags'])) {
+            $tags = Tags::insertOnce($this->data['tags']);
+            $this->data['tags'] = implode(',', $this->data['tags']);
+        }
 
+        // insert
+        try {
+            $this->postId = intval(Db::name('Posts')->insertGetId($this->data));
+            $errorMsg = '';
+            Tags::savePostsRelation($tags, $this->postId, $errorMsg);
+            $flag = true;
+        } catch (\Exception $e) {
+            $this->error = $e->getMessage();
+            $flag = false;
+        }
+        if (!empty($errorMsg)) {
+            $flag = false;
+            $this->error = 'Tags Model Relation:' . $errorMsg;
+        }
+        return $flag;
     }
 
     public function edit()
@@ -86,6 +111,11 @@ class Posts
     public function del()
     {
 
+    }
+
+    public function getError()
+    {
+        return $this->error;
     }
 
 }
