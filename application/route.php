@@ -9,4 +9,8 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-return [];
+return [
+    '__rest__' => [
+        ':target' => 'index/:target',
+    ],
+];
