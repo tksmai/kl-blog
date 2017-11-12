@@ -5,6 +5,7 @@ namespace app\index\model;
 use app\common\helper\DbValue;
 use app\common\helper\Timestamp;
 use app\index\model\Tags;
+use app\index\model\Users;
 use \think\Db;
 
 /**
@@ -133,17 +134,17 @@ class Posts
      */
     public function add(int $publisherId)
     {
-        if ($this->data['post_id']) {
+        if (!empty($this->data['post_id'])) {
             return $this->edit();
         } else {
             unset($this->data['post_id']);
         }
         // deal publisher
-        $userInfo = Db::name('Users')
-            ->field('username')
-            ->find($publisherId);
-        $this->data['publisher'] = empty($userInfo['username']) ?
-        self::DEFAULT_PUBLISHER : $userInfo['username'];
+        $userInfo = Users::getInfo($publisherId);
+        $publisher = empty($userInfo['nickname']) ?
+        $userInfo['username'] : $userInfo['nickname'];
+        $this->data['publisher'] = empty($publisher) ?
+        self::DEFAULT_PUBLISHER : $publisher;
         $this->data['publisher_id'] = empty($publisherId) ?
         self::DEFAULT_PUBLISHER_ID : $publisherId;
         // time deal
