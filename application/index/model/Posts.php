@@ -17,7 +17,7 @@ use \think\Db;
  * publisher varchar(255)
  * publisher_id int(11) // fk users.user_id
  * tags varchar(255)
- * meta text // the content for post
+ * post_content text
  * create_time int(11)
  * publish_time int(11)
  * modify_time int(11)

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2017-11-10 14:45:34
+-- Generation Time: 2017-11-13 16:02:09
 -- 服务器版本： 5.5.56-log
 -- PHP Version: 7.1.7
 
@@ -29,7 +29,7 @@ USE `kl_blog`;
 --
 -- 表的结构 `posts`
 --
--- 创建时间： 2017-11-05 08:54:12
+-- 创建时间： 2017-11-13 07:55:22
 --
 
 DROP TABLE IF EXISTS `posts`;
@@ -39,13 +39,13 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `publisher` varchar(50) NOT NULL,
   `publisher_id` int(11) NOT NULL,
   `tags` varchar(255) NOT NULL,
-  `meta` text NOT NULL,
+  `post_content` text NOT NULL,
   `create_time` int(11) NOT NULL,
   `publish_time` int(11) NOT NULL,
   `modify_time` int(11) NOT NULL,
   `status` tinyint(8) NOT NULL,
   PRIMARY KEY (`post_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='文章主表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文章主表';
 
 --
 -- RELATIONSHIPS FOR TABLE `posts`:
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `tags` (
   `tag_name` varchar(255) NOT NULL,
   `create_time` int(11) NOT NULL,
   PRIMARY KEY (`tag_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- RELATIONSHIPS FOR TABLE `tags`:
@@ -94,18 +94,19 @@ CREATE TABLE IF NOT EXISTS `tags` (
 --
 -- 表的结构 `users`
 --
--- 创建时间： 2017-11-04 12:34:40
+-- 创建时间： 2017-11-11 23:51:57
 --
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
+  `nickname` varchar(200) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(64) NOT NULL,
   `reg_time` int(11) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- RELATIONSHIPS FOR TABLE `users`:
