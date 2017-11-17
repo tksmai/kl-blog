@@ -3,7 +3,6 @@
 namespace app\index\controller;
 
 use app\index\model\Posts;
-use think\Db;
 use think\Loader;
 use think\Request;
 use think\Response;
@@ -14,15 +13,15 @@ class Post
     {
         $page = $request->get('p/d', 1);
         Posts::setPage($page);
-        $list = Posts::tableList();
+        $list = Posts::tableList(Posts::STATUS_PUBLISHED);
         return json($list, 200);
     }
 
     public function read(Request $request, int $id): Response
     {
-        $item = Db::name('posts')->find($id);
-        $item['tags'] = explode(',', $item['tags']);
-        return json($item, 200);
+        $item = Posts::read($id);
+        $code = $item ? 200 : 204;
+        return json($item, $code);
     }
 
     public function save(Request $request): Response

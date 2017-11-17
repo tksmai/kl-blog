@@ -30,8 +30,8 @@ class Posts
     const DEFAULT_PUBLISHER_ID = 0;
     const DEFAULT_PUBLISHER = '匿名';
     const DEFAULT_PAGE_SIZE = 15;
-    const STATUS_SAVE_ONLY = 2;
-    const STATUS_PUBLISHED = 1;
+    const STATUS_PUBLISHED = 2;
+    const STATUS_SAVE_ONLY = 1;
     const STATUS_FORBIDDEN = 0;
     const STATUS_DELETE = -1;
 
@@ -40,8 +40,12 @@ class Posts
     private static $listPage = [];
     private static $listField = ['post_id', 'title', 'publisher', 'tags', 'create_time', 'publish_time', 'modify_time', 'status'];
     private static $listSearchKey = ['tags', 'publisher', 'title'];
+    private static $listOrder = 'post_id desc';
+
     private static $insertTimeField = ['create_time', 'modify_time'];
     private static $modifyTimeField = ['modify_time'];
+
+    private static $readField = ['post_id', 'title', 'publisher', 'tags', 'post_content', 'create_time', 'publish_time', 'modify_time', 'status'];
 
     private $data = [];
     private $error = '';
@@ -89,16 +93,28 @@ class Posts
         return true;
     }
 
+    public static function setOrder(string $order): bool
+    {
+        self::$listOrder = $order;
+        return true;
+    }
+
     /**
      * 获取文章表格
      *
      * @return array
      * Kanzaki Tsukasa
      */
-    public static function tableList(): array
+    public static function tableList(int $status = null): array
     {
         $keyword = self::$listKeyWord;
         $condition = self::$listCondition;
+        if (isset($status) && !isset($condition['status'])) {
+            $condition['status'] = ['egt', $status];
+        } elseif (!isset($status) && !isset($condition['status'])) {
+            // 默认为不删除
+            $condition['status'] = ['egt', self::STATUS_FORBIDDEN];
+        }
         $field = self::$listField;
         $page = implode(',', self::$listPage);
         return Db::name('Posts')
@@ -108,9 +124,26 @@ class Posts
             ->select();
     }
 
-    public static function read(int $id)
+    public static function read(int $postId, int $status = null): array
     {
-
+        if (!isset($status)) {
+            $status = self::STATUS_PUBLISHED;
+        }
+        $condition = [
+            'status' => ['egt', $status],
+            'post_id' => $postId,
+        ];
+        $field = self::$readField;
+        $item = Db::name('Posts')
+            ->where($condition)
+            ->field($field)
+            ->find();
+        if ($item) {
+            $item['tags'] = explode(',', $item['tags']);
+        } else {
+            $item = [];
+        }
+        return $item;
     }
 
     /**
@@ -181,9 +214,16 @@ class Posts
 
     }
 
-    public function del()
+    public function del(int $postId): bool
     {
+        try {
+            $data = [
+                'post_id' => $postId,
+                'status' => self::STATUS_DELETE,
+            ];
+        } catch (\Exception $e) {
 
+        }
     }
 
     /**
