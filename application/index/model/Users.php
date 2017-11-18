@@ -4,6 +4,7 @@ namespace app\index\model;
 
 use think\Cache;
 use think\Db;
+use think\Validate;
 
 /**
  * Users Model
@@ -19,13 +20,40 @@ use think\Db;
  */
 class Users
 {
+    const ERR_INVALID_USERNAME = 1;
+    const ERR_USERNAME_EXIST = 2;
+    const ERR_DB_ERROR = 3;
     const CACHE_KEY_USER_INFO_PREFIX = 'user_info_user_id_';
     private $username = '';
     private $userId = 0;
+    private static $error = '';
+    private static $errorCode = 0;
 
-    public function register()
+    public static function register(string $username, string $password): bool
     {
-
+        if (self::checkUser($username)) {
+            self::$errorCode = self::ERR_USERNAME_EXIST;
+            return false;
+        }
+        $insdata = [];
+        if (Validate::is($username, 'email')) {
+            $insdata['email'] = $username;
+        } elseif (Validate::is($username, 'alphaDash')) {
+            $insdata['username'] = $username;
+        } else {
+            self::$errorCode = self::ERR_INVALID_USERNAME;
+            return false;
+        }
+        $insdata['password'] = self::compressPwd($password);
+        $insdata['reg_time'] = time();
+        try {
+            Db::name('users')->insert($insdata);
+        } catch (\Exception $e) {
+            self::$error = $e->getMessage();
+            self::$errorCode = self::ERR_DB_ERROR;
+            return false;
+        }
+        return true;
     }
 
     public function login()
@@ -48,5 +76,34 @@ class Users
             Cache::set(self::CACHE_KEY_USER_INFO_PREFIX . $userId, $user, 86400);
         }
         return $user;
+    }
+
+    public static function getErrorCode(): int
+    {
+        return self::$errorCode;
+    }
+
+    private static function compressPwd(string $password): string
+    {
+        return md5($password);
+    }
+
+    private static function checkUser(string $username): bool
+    {
+        $condition = [];
+        if (Validate::is($username, 'email')) {
+            $condition['email'] = $username;
+        } elseif (Validate::is($username, 'alphaDash')) {
+            $condition['username'] = $username;
+        } else {
+            return false;
+        }
+        $item = Db::name('users')
+            ->where($condition)
+            ->find();
+        if ($item) {
+            return true;
+        }
+        return false;
     }
 }
