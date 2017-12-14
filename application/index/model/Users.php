@@ -78,6 +78,7 @@ class Users
         $user = self::checkUser($username);
         if ($user === false) {
             self::$errorCode = self::ERR_INVALID_USERNAME;
+            return false;
         } elseif (!isset($user['user_id'])) {
             self::$errorCode = self::ERR_USERNAME_NOT_EXIST;
             return false;
@@ -168,9 +169,10 @@ class Users
         $item = Db::name('users')
             ->where($condition)
             ->find();
-        if ($item > 0) {
+        if (is_null($item)) {
+            return $condition;
+        } else {
             return $item;
         }
-        return $condition;
     }
 }
