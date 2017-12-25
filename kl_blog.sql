@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2017-11-13 16:02:09
+-- Generation Time: 2017-12-25 19:41:50
 -- 服务器版本： 5.5.56-log
 -- PHP Version: 7.1.7
 
@@ -29,16 +29,18 @@ USE `kl_blog`;
 --
 -- 表的结构 `posts`
 --
--- 创建时间： 2017-11-13 07:55:22
+-- 创建时间： 2017-12-25 06:56:14
 --
 
 DROP TABLE IF EXISTS `posts`;
 CREATE TABLE IF NOT EXISTS `posts` (
   `post_id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
+  `title_pinyin` varchar(255) NOT NULL,
   `publisher` varchar(50) NOT NULL,
   `publisher_id` int(11) NOT NULL,
   `tags` varchar(255) NOT NULL,
+  `tags_pinyin` varchar(255) NOT NULL,
   `post_content` text NOT NULL,
   `create_time` int(11) NOT NULL,
   `publish_time` int(11) NOT NULL,
@@ -56,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
 --
 -- 表的结构 `posts_tags`
 --
--- 创建时间： 2017-11-10 05:32:24
+-- 创建时间： 2017-11-10 13:03:05
 --
 
 DROP TABLE IF EXISTS `posts_tags`;
@@ -74,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `posts_tags` (
 --
 -- 表的结构 `tags`
 --
--- 创建时间： 2017-11-06 01:59:44
+-- 创建时间： 2017-11-10 13:03:05
 --
 
 DROP TABLE IF EXISTS `tags`;
@@ -87,6 +89,27 @@ CREATE TABLE IF NOT EXISTS `tags` (
 
 --
 -- RELATIONSHIPS FOR TABLE `tags`:
+--
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `usermeta`
+--
+-- 创建时间： 2017-12-10 02:34:44
+--
+
+DROP TABLE IF EXISTS `usermeta`;
+CREATE TABLE IF NOT EXISTS `usermeta` (
+  `umeta_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `meta_key` varchar(255) DEFAULT NULL,
+  `meta_value` longtext,
+  PRIMARY KEY (`umeta_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户扩展数据表';
+
+--
+-- RELATIONSHIPS FOR TABLE `usermeta`:
 --
 
 -- --------------------------------------------------------
