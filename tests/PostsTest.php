@@ -1,6 +1,7 @@
 <?php
 namespace tests;
 
+use app\common\helper\Pinyin;
 use app\index\model\Posts;
 use think\Db;
 
@@ -27,6 +28,8 @@ class PostsTest extends TestCase
         // $this->dump(json_encode($this->addData));
         $field = array_keys($this->addData);
         // $this->export($field);
+        $keywords = Pinyin::keywords2Pinyin($this->addData['tags']);
+        // $this->export($keywords);
     }
 
     public function testListPost()

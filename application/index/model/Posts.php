@@ -3,6 +3,7 @@
 namespace app\index\model;
 
 use app\common\helper\DbValue;
+use app\common\helper\Pinyin;
 use app\common\helper\Timestamp;
 use app\index\model\Tags;
 use app\index\model\Users;
@@ -180,6 +181,9 @@ class Posts
         self::DEFAULT_PUBLISHER : $publisher;
         $this->data['publisher_id'] = empty($publisherId) ?
         self::DEFAULT_PUBLISHER_ID : $publisherId;
+        // deal title pinyin
+        $title_pinyin = Pinyin::keywords2Pinyin($this->data['title']);
+        $this->data['title_pinyin'] = $title_pinyin[0] . '|' . str_replace(' ', '', $title_pinyin[0]);
         // time deal
         Timestamp::addTime($this->data, self::$insertTimeField);
         // status deal
@@ -189,7 +193,11 @@ class Posts
         $tags = [];
         if (!empty($this->data['tags'])) {
             $tags = Tags::insertOnce($this->data['tags']);
+            $tags_pinyin = Pinyin::keywords2Pinyin($this->data['tags']);
             $this->data['tags'] = implode(',', $this->data['tags']);
+            $this->data['tags_pinyin'] = implode(',', $tags_pinyin) .
+            '|' .
+            str_replace(' ', '', implode(',', $tags_pinyin));
         }
 
         // insert

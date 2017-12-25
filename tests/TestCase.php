@@ -27,4 +27,18 @@ class TestCase extends \think\testing\TestCase
         var_export($data);
         echo PHP_EOL;
     }
+
+    protected function json($data)
+    {
+        echo PHP_EOL;
+        echo json_encode($data);
+        echo PHP_EOL;
+    }
+
+    protected function phpse($data)
+    {
+        echo PHP_EOL;
+        echo \serialize($data);
+        echo PHP_EOL;
+    }
 }
